@@ -1,17 +1,22 @@
 {
   "compilerOptions": {
+    "allowJs": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
     "target": "ESNext",
     "module": "ESNext",
-    "moduleResolution": "Bundler",
+    "moduleResolution": "node",
     "strict": true,
     "skipLibCheck": true,
     "lib": [
-      "ESNext"
+      "ESNext","dom", "dom.iterable"
     ],
     "types": [
       "@cloudflare/workers-types"
     ],
     "jsx": "react-jsx",
     "jsxImportSource": "hono/jsx"
-  },
+  }
 }
