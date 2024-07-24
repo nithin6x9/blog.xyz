@@ -7,14 +7,25 @@ export const blogRouter = new Hono<{
     Bindings:{
         DATABASE_URL:string,
         JWT_SECRET:string
-    }
+    },
+	Variables:{
+		userId:string;
+	}
 }>();
 
 blogRouter.user("/*",async(c,next) => {
 	const authHeader = c.req.header("authorization") || "";
 	const user = verify(authHeader,c.env.JWT_SECRET);
-	
-	next();
+
+	if(user){
+		c.set("userId",user.id);
+		next();
+	} else {
+		c.status(403);
+		return c.json({
+			message:"You are not logged In"
+		});
+	}
 });
 
 blogRouter.post("/", async (c) => {
