@@ -13,13 +13,13 @@ export const blogRouter = new Hono<{
 	}
 }>();
 
-blogRouter.user("/*",async(c,next) => {
+blogRouter.use("/*",async(c,next) => {
 	const authHeader = c.req.header("authorization") || "";
 	const user = verify(authHeader,c.env.JWT_SECRET);
 
 	if(user){
 		c.set("userId",user.id);
-		next();
+		await next();
 	} else {
 		c.status(403);
 		return c.json({
@@ -29,16 +29,17 @@ blogRouter.user("/*",async(c,next) => {
 });
 
 blogRouter.post("/", async (c) => {
-	const body = c.req.json();
+	const authorId = c.get("userId");
 	const prisma = new PrismaClient({
 		datasourceUrl:c.env?.DATABASE_URL,
 	}).$extends(withAccelerate());
-
+	
+	const body = await c.req.json();
 	const blog = await prisma.blog.create({
 		data:{
 			title:body.title,
 			content:body.content,
-			authorId: 1
+			authorId: Number(authorId)
 		}
 	});
 
@@ -51,6 +52,7 @@ blogRouter.post("/", async (c) => {
 
 blogRouter.put("/", async (c) => {
 	const body = c.req.json();
+	const authorId = c.get("userId");
 	const prisma = new Prismaclient({
 		datasourceUrl:c.env?.DATABASE_URL,
 	}).$extends(withAccelerate());
@@ -62,7 +64,7 @@ blogRouter.put("/", async (c) => {
 		data:{
 			title:body.title,
 			content:body.content,
-			authorId:1
+			authorId:Number(authorId)
 		}
 	});
 
