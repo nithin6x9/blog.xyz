@@ -5,9 +5,12 @@
     "deploy": "wrangler deploy --minify src/index.ts"
   },
   "dependencies": {
+    "@nithin0.9/medium-clone": "^1.0.0",
     "@prisma/client": "^5.17.0",
     "@prisma/extension-accelerate": "^1.1.0",
     "hono": "^4.4.13",
+    "i": "^0.3.7",
+    "npm": "^10.8.2",
     "prisma": "^5.17.0"
   },
   "devDependencies": {
