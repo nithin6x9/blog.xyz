@@ -1,11 +1,13 @@
-import {Quote} from '../components/quote';
+
+import {Quote} from '../components/quotes';
 
 export const Signup = ()=>{
-	return(
+	return (
 		<div>
 			<div className = "grid grid-cols-2">
+
 			</div>
-			<Quote />
+			<Quote/>
 		</div>
 	)
 }
