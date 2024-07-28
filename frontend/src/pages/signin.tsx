@@ -1,7 +1,17 @@
+import {Auth} from "../components/auth";
+import {Quote} from '../components/quotes';
+
 export const Signin = ()=>{
 	return (
 		<div>
-			Sign in page
+			<div className = "grid grid-cols-2">
+			<div>
+				<Auth type="sigin"/>
+			</div>
+			<div className = "invisible  lg:visible">
+				<Quote/>
+			</div>
+			</div>
 		</div>
 	)
 }
