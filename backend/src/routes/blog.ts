@@ -68,26 +68,27 @@ blogRouter.post("/", async (c) => {
 
 blogRouter.put("/", async (c) => {
 	const body = await c.req.json();
-	const {success} = updateBlogInput.safeParse(body);
+	//const {success} = updateBlogInput.safeParse(body);
+	/*const { success } = updateBlogInput.safeParse(body);
 	if(!success){
 		c.status(411);
 		return c.json({
 			message:"Wrong input"
 		});
-	}
-	const authorId = c.get("userId");
+	}*/
+	//const authorId = c.get("userId");
 	const prisma = new PrismaClient({
 		datasourceUrl:c.env.DATABASE_URL,
 	}).$extends(withAccelerate());
 
 	const blog = await prisma.blog.update({
 		where:{
-			id:body.id
+			id: body.id
 		},
 		data:{
 			title:body.title,
 			content:body.content,
-			authorId:Number(authorId)
+			//authorId:Number(authorId)
 		}
 	});
 
@@ -95,6 +96,7 @@ blogRouter.put("/", async (c) => {
 		id:blog.id
 	});
 });
+
 blogRouter.get("/bulk", async (c) => {
 	const prisma = new PrismaClient({
 		datasourceUrl:c.env?.DATABASE_URL,
