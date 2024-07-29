@@ -1,15 +1,31 @@
-import {Link} from "react-router-dom";
+import {Link,useNavigate} from "react-router-dom";
 import {ChangeEvent,useState} from 'react';
 import {SignupInput} from "@nithin0.9/medium-clone";
+import axios from 'axios';
+
 
 export const Auth = ({ type }: {type:"signup" | "singin"})=>{
+
+	const navigate = useNavigate();
 	const [postInputs,setPostInputs] = useState<SignupInput>({
 		name:"",
 		email:"",
 		password:""
 	});
 
-	function sendRequest(){
+	async function sendRequest(){
+		try{
+
+			const response = axios.post(`${BACKEND_URL}/api/v1/user/${type==="signup"?"signup":"signin"}`,postInputs);
+			const jwt = response.data;
+			localStorage.setItem("token",jwt);
+			navigate("/blogs");
+
+
+		}catch(e){
+			//alert
+			alert("Error while signing Up")
+		}
 
 	}
 
@@ -23,7 +39,7 @@ export const Auth = ({ type }: {type:"signup" | "singin"})=>{
 					</div>
 					<div className = "text-slate-600">
 						{type === "signup"?"Already have an account?":"No account?Create one!"}
-						{/*<Link className="pl-1 underline" to={"/signin"}>*/}<Link className = "pl-1 underline" to = {type === "signup" ? "/signin" : "/signup"}>{type === "signin"?"Sign up":"Sign in"} </Link>
+						{/*<Link className="pl-1 underline" to={"/signin"}>*/}<Link className = "pl-1 underline" to = {type === "signup" ? "/signin" : "/signup"}>{type === "signup"?"Sign in":"Sign up"} </Link>
 					</div>
 				</div>
 
@@ -49,7 +65,7 @@ export const Auth = ({ type }: {type:"signup" | "singin"})=>{
 							pasword:e.target.value
 						})
 					}}/>
-					<button type="button" className="w-full text-white bg-gray-800 hover:bg-gray-900 focus:outline-none
+					<button type="button" onClick = {sendRequest} className="w-full text-white bg-gray-800 hover:bg-gray-900 focus:outline-none
 													focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5
 													me-2 mb-2 mt-3 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700
 													dark:border-gray-700">{type === "signup" ? "Sign Up" : "Sign In"}</button>
@@ -70,7 +86,7 @@ interface LabelledInputType{
 function LabelledInput({label,placeholder,onChange,type}:LabelledInputType){
 	return <div>
 	<label className="pt-2 block mb-2 text-l text-gray-900 dark:text-black font-bold">{label}</label>
-	<input onChange = {onChange} type={type || "text"} id="firstname" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500
+	<input onChange = {onChange} type={type || "text"} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500
 	 focus:border-blue-500 block w-full p-2.5 " placeholder={placeholder} required />
 </div>
 

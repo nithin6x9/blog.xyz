@@ -2,7 +2,7 @@ import {Hono} from "hono";
 import {sign} from "hono/jwt";
 import {PrismaClient} from "@prisma/client/edge";
 import {withAccelerate} from "@prisma/extension-accelerate";
-import {signupInput,singinInput} from "@nithin0.9/medium-clone";
+import {signupInput,signinInput} from "@nithin0.9/medium-clone";
 
 
 export const userRouter = new Hono<{
@@ -13,7 +13,8 @@ export const userRouter = new Hono<{
 }>();
 
 userRouter.post("/signup", async (c) => {
-	const {success} = signupInput.safeparse(body);
+	const body = await c.req.json();
+	const {success} = signupInput.safeParse(body);
 	if(!success){
 		c.status(411);
 		return c.json({
@@ -24,13 +25,13 @@ userRouter.post("/signup", async (c) => {
 		datasourceUrl: c.env?.DATABASE_URL,
 	}).$extends(withAccelerate());
 
-	const body = await c.req.json();
 
 	try{
 		const user = await prisma.user.create({
 			data:{
 				email:body.email,
-				password:body.password
+				password:body.password,
+				name:body.name
 			},
 		});
 		const jwt = await sign({
@@ -41,12 +42,12 @@ userRouter.post("/signup", async (c) => {
 	}catch(e){
 		console.log(e);
 		c.status(411);
-		return c.text("USer already exist");
+		return c.text("User already exist");
 	}
 });
 userRouter.post("/signin", async(c) => {
 	const body = await c.req.json();
-	const success = signinInput.safeparse(body);
+	const success = signinInput.safeParse(body);
 
 	if(!success){
 		c.status(411);
@@ -62,14 +63,15 @@ userRouter.post("/signin", async(c) => {
 		const user = await prisma.user.findFirst({
 			where:{
 				email:body.email,
-				password:body.password
+				password:body.password,
+				name:body.name
 			}
 		});
 		if(!user){
 			c.status(403);//403 unauthorized status code
 			//return c.text("Invalid credentials");
 			return c.json({
-				message:"Incorrect credentials"
+				message:"Invalid credentials"
 			});
 		}
 		const jwt = await sign({
