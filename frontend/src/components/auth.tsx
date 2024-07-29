@@ -9,37 +9,41 @@ export const Auth = ({ type }: {type:"signup" | "singin"})=>{
 		password:""
 	});
 
+	function sendRequest(){
+
+	}
+
 	return (
 		<div className = "bg-slate-100 h-screen flex justify-center ">
 			{/*{JSON.stringify(postInputs)}*/}
 			<div className = "flex justify-center flex-col " >
 				<div className="flex justify-center flex-col px-10 py-6">
 					<div className="text-3xl font-extrabold">
-						{type === "signup"?"Create an Account":"Log in to your account"}
+						{type === "signup"?"Create an Account":"Create an Account"}
 					</div>
 					<div className = "text-slate-600">
-						{type === "signup"?"Already have an account?":"Don't have an account"}
-						<Link className="pl-1 underline" to={"/signin"}>{type === "signup"?"Login":"Sign Up"} </Link>
+						{type === "signup"?"Already have an account?":"No account?Create one!"}
+						{/*<Link className="pl-1 underline" to={"/signin"}>*/}<Link className = "pl-1 underline" to = {type === "signup" ? "/signin" : "/signup"}>{type === "signin"?"Sign up":"Sign in"} </Link>
 					</div>
 				</div>
 
 				<div className="flex justify-start flex-col">
-					<div className = "text-l font-semibold">Username</div>
-					<LabelledInput title="Name" placeholder="Enter your name" onChange={(e)=>{
+
+					{type ==="signup" ? <LabelledInput label="Name" placeholder="Enter your name" onChange={(e)=>{
 						setPostInputs ({
 							...postInputs,
 							name:e.target.value
 						})
-					}}/>
-					<div className = "pt-2 text-l font-semibold">Email</div>
-					<LabelledInput title="Email" placeholder="xyz@example.com" onChange={(e)=>{
+					}}/>:null}
+
+					<LabelledInput label="Email" placeholder="xyz@example.com" onChange={(e)=>{
 						setPostInputs ({
 							...postInputs,
 							email:e.target.value
 						})
 					}}/>
-					<div className = "pt-2 text-l font-semibold">Password</div>
-					<LabelledInput title="Password" type={"password"}  onChange={(e)=>{
+
+					<LabelledInput label="Password" type={"password"}  onChange={(e)=>{
 						setPostInputs ({
 							...postInputs,
 							pasword:e.target.value
@@ -65,7 +69,7 @@ interface LabelledInputType{
 
 function LabelledInput({label,placeholder,onChange,type}:LabelledInputType){
 	return <div>
-	<label className="block mb-2 text-sm text-gray-900 dark:text-white font-semibold">{label}</label>
+	<label className="pt-2 block mb-2 text-l text-gray-900 dark:text-black font-bold">{label}</label>
 	<input onChange = {onChange} type={type || "text"} id="firstname" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500
 	 focus:border-blue-500 block w-full p-2.5 " placeholder={placeholder} required />
 </div>
