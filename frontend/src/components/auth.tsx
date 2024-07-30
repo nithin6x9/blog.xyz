@@ -2,7 +2,7 @@ import {Link,useNavigate} from "react-router-dom";
 import {ChangeEvent,useState} from 'react';
 import {SignupInput} from "@nithin0.9/medium-clone";
 import axios from 'axios';
-
+import {BACKEND_URL} from '../config.ts';
 
 export const Auth = ({ type }: {type:"signup" | "singin"})=>{
 
@@ -16,7 +16,7 @@ export const Auth = ({ type }: {type:"signup" | "singin"})=>{
 	async function sendRequest(){
 		try{
 
-			const response = axios.post(`${BACKEND_URL}/api/v1/user/${type==="signup"?"signup":"signin"}`,postInputs);
+			const response = await axios.post(`${BACKEND_URL}/api/v1/user/${type==="signup"?"signup":"signin"}`,postInputs);
 			const jwt = response.data;
 			localStorage.setItem("token",jwt);
 			navigate("/blogs");
@@ -62,7 +62,7 @@ export const Auth = ({ type }: {type:"signup" | "singin"})=>{
 					<LabelledInput label="Password" type={"password"}  onChange={(e)=>{
 						setPostInputs ({
 							...postInputs,
-							pasword:e.target.value
+							password:e.target.value
 						})
 					}}/>
 					<button type="button" onClick = {sendRequest} className="w-full text-white bg-gray-800 hover:bg-gray-900 focus:outline-none
