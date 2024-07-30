@@ -1,39 +1,34 @@
 import {BlogCard} from "../components/blogCard";
+import {Appbar} from "../components/appbar";
+import {useBlogs} from '../hooks/index.ts';
+
 
 
 export const Blogs = () => {
-	return	<div className="flex justify-center">
-				<div className="max-w-xl">
-					<BlogCard
-						authorName = {"Peter v"}
-						title = {"How an ugly Single page Website Makes $5,000 a month with affliate Marketing"}
-						content = {"No need to create a fancy an modern website with hundreds of pages to make money online.-- Making money online is the dream for man..."}
+
+	const {loading,blogs} = useBlogs();
+
+	if(loading){
+		return <div>
+				loading.....
+			</div>
+	}
+
+
+	return	<div>
+			<Appbar />
+				<div  className="flex justify-center">
+				<div>
+					{blogs.map(blog => <BlogCard
+						id={blo1g.id}
+						authorName = {blog.author.name || "Nithin"  }
+						title = {blog.title}
+						content = {blog.content}
 						publishedDate = {"Dec3,2023"}
 					/>
-					<BlogCard
-						authorName = {"Peter v"}
-						title = {"How an ugly Single page Website Makes $5,000 a month with affliate Marketing"}
-						content = {"No need to create a fancy an modern website with hundreds of pages to make money online.-- Making money online is the dream for man..."}
-						publishedDate = {"Dec3,2023"}
-					/>
-					<BlogCard
-						authorName = {"Peter v"}
-						title = {"How an ugly Single page Website Makes $5,000 a month with affliate Marketing"}
-						content = {"No need to create a fancy an modern website with hundreds of pages to make money online.-- Making money online is the dream for man..."}
-						publishedDate = {"Dec3,2023"}
-					/>
-					<BlogCard
-						authorName = {"Peter v"}
-						title = {"How an ugly Single page Website Makes $5,000 a month with affliate Marketing"}
-						content = {"No need to create a fancy an modern website with hundreds of pages to make money online.-- Making money online is the dream for man..."}
-						publishedDate = {"Dec3,2023"}
-					/>
-					<BlogCard
-						authorName = {"Peter v"}
-						title = {"How an ugly Single page Website Makes $5,000 a month with affliate Marketing"}
-						content = {"No need to create a fancy an modern website with hundreds of pages to make money online.-- Making money online is the dream for man..."}
-						publishedDate = {"Dec3,2023"}
-					/>
+)}
+
 				</div>
+			</div>
 		</div>
 }

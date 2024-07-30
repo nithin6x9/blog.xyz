@@ -1,9 +1,11 @@
+import {Link} from 'react-router-dom';
 
 interface BlogCardProps{
 	authorName: string;
 	title:string;
 	content:string;
 	publishedDate:string;
+	id:number;
 }
 
 
@@ -13,8 +15,9 @@ export const BlogCard = ({
 	title,
 	content
 }:BlogCardProps) => {
-	return(
-	<div className = "pt-4 border-b border-slate-400 pb-4">
+	return(<Link to={`/blog/${id}`}>
+
+	<div className = "pt-4 border-b border-slate-200 pb-4 w-screen max-w-screen-md cursor-pointer">
 		<div className = "flex">
 			<Avatar name={authorName} />
 			<div classsName = "font-extralight pl-2 text-sm flex justify-center flex-col">{authorName}</div>
@@ -34,17 +37,18 @@ export const BlogCard = ({
 		{/*<div className ="bg-slate-200 h-0.5 w-full"></div>*/}
 
 	</div>
+	</Link>
 	)
 }
 
-function Avatar({name}: {name:string}){
-	return <div class="relative inline-flex items-center justify-center w-6 h-6 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
+export function Avatar({name,size=6}: {name:string,size?:number}){
+	return <div className={`p-2 relative inline-flex items-center justify-center w-${size} h-${size} overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600`}>
     <span class="font-xs text-gray-600 dark:text-gray-300">{name[0]}</span>
 	</div>
 }
 
 function Circle(){
-	return <div className = "h-1 w-1 rounded-full bg-slate-500">
+	return <div className = "h-1 w-1 rounded-full bg-slate-500" >
 			</div>
 
 }
