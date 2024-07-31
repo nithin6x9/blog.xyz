@@ -10,35 +10,34 @@ interface BlogCardProps{
 
 
 export const BlogCard = ({
+	id,
 	authorName,
 	publishedDate,
 	title,
-	content
+	content,
+
 }:BlogCardProps) => {
-	return(<Link to={`/blog/${id}`}>
-
-	<div className = "pt-4 border-b border-slate-200 pb-4 w-screen max-w-screen-md cursor-pointer">
-		<div className = "flex">
-			<Avatar name={authorName} />
-			<div classsName = "font-extralight pl-2 text-sm flex justify-center flex-col">{authorName}</div>
-			<div className = "flex justify-center flex-col pl-2"> <Circle /> </div>
-			{/*<div className = "text-xs fle">	&#9679;	</div>*/}
-			<div className = "pl-2 font-thin text-slate-500 text-sm flex justify-center flex-col">{ publishedDate}</div>
-		</div>
-		<div className = "text-xl font-semibold pt-2">
-			{title}
-		</div>
-		<div className = "text-md font-thin">
-			{content.slice(0,100)+ "..."}
-		</div>
-		<div className = "text-slate-400 text-sm pt-2">
-			{`${Math.ceil(content.length/100)} minute(s) read`}
-		</div>
-		{/*<div className ="bg-slate-200 h-0.5 w-full"></div>*/}
-
-	</div>
+	return <Link to={`/blog/${id}`}>
+			<div className = "pt-4 border-b border-slate-200 pb-4 w-screen max-w-screen-md cursor-pointer">
+				<div className = "flex">
+				<Avatar name={authorName} />
+				<div classsName = "font-extralight pl-2 text-sm flex justify-center flex-col">{authorName}</div>
+				<div className = "flex justify-center flex-col pl-2"> <Circle /> </div>
+				{/*<div className = "text-xs fle">	&#9679;	</div>*/}
+				<div className = "pl-2 font-thin text-slate-500 text-sm flex justify-center flex-col">{ publishedDate}</div>
+				</div>
+				<div className = "text-xl font-semibold pt-2">
+					{title}
+				</div>
+				<div className = "text-md font-thin">
+					{content.slice(0,100)+ "..."}
+				</div>
+				<div className = "text-slate-400 text-sm pt-2">
+				{`${Math.ceil(content.length/100)} minute(s) read`}
+				</div>
+				{/*<div className ="bg-slate-200 h-0.5 w-full"></div>*/}
+			</div>
 	</Link>
-	)
 }
 
 export function Avatar({name,size=6}: {name:string,size?:number}){
