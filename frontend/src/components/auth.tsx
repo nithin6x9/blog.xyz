@@ -77,9 +77,9 @@ export const Auth = ({ type }: {type:"signup" | "singin"})=>{
 }
 interface LabelledInputType{
 	label:string;
-	placeholder:string;
-	onChange:(e:ChangeEvent<HTMLInputElement>)=>void;
+	placeholder?:string;
 	type?:string;
+	onChange:(e:ChangeEvent<HTMLInputElement>)=>void;
 
 }
 
