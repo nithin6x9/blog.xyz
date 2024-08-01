@@ -4,17 +4,17 @@ import {BACKEND_URL} from '../config';
 
 
 export interface Blog {
-	"content": string;
+    "content": string;
     "title": string;
-    "id": number;
+    "id": number
     "author": {
-        "name": string;
-        }
+        "name": string
+    }
 }
 
 export const useBlog =({id}:{id:string})=>{
 	const [loading,setLoading] = useState(true);
-	const [blog,setBlog] = useState<Blog>([]);
+	const [blog,setBlog] = useState<Blog>();
 
 
 	useEffect(()=>{
@@ -24,7 +24,7 @@ export const useBlog =({id}:{id:string})=>{
 			}
 		})
 			.then(response=>{
-				setBlog(response.data.blogs);
+				setBlog(response.data.blog);
 				setLoading(false);
 			})
 	},[id])
