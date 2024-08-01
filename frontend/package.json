@@ -10,11 +10,16 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@emotion/css": "^11.13.0",
     "@nithin0.9/medium-clone": "^1.0.0",
     "axios": "^1.7.2",
+    "is-hotkey": "^0.2.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-router-dom": "^6.25.1"
+    "react-router-dom": "^6.25.1",
+    "slate": "^0.103.0",
+    "slate-history": "^0.100.0",
+    "slate-react": "^0.107.1"
   },
   "devDependencies": {
     "@types/react": "^18.3.3",
