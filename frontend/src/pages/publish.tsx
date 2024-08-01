@@ -1,49 +1,69 @@
-import {useState} from 'react';
+import {useState,ChangeEvent} from 'react';
 import {Avatar} from "../components/blogCard";
 import {Link} from "react-router-dom";
 import axios from 'axios';
 import {BACKEND_URL} from "../config.ts";
-//import { RichText } from '../components/texteditor';
-//import RichText from '../components/texteditor';
+import {useNavigate} from 'react-router-dom';
 
 
 export const Publish = ()=> {
 	const [title,setTitle] = useState("");
 	const [description,setDescription] =useState("");
+	const navigate = useNavigate();
 
 	return <div>
 			<Customappbar/>
 			<div className="flex justify-center">
 				<div  className= "max-w-screen-lg">
 
-					<input onChange = {()=>{
+					<input onChange = {(e)=>{
 						setTitle(e.target.value)
 					}} className= "mt-16 block p-2.5 w-full text-6xl font-serif bg-white border border-white rounded focus:border-white focus:outline-none" placeholder="Title"/>
-					<input onChange = {()=>{
+					<TextEditor onChange={(e)=>{
 						setDescription(e.target.value)
-					}}className= "block p-2.5 w-full text-3xl font-serif bg-white border border-white rounded focus:border-white focus:outline-none" placeholder="Tell your story..."/>
+					}}/>
+					<button onClick = {async ()=>{
+						const response = await axios.post(`${BACKEND_URL}/api/v1/blog`,{
+						title,
+						content:description
+						},{
+							headers:{
+								Authorization:localStorage.getItem("token")
+							}
+						});
+						navigate(`/blog/${response.data.id}`)
+						}} type="button" className="text-gray-900 bg-gradient-to-r from-lime-200 via-lime-400 to-lime-500 hover:bg-gradient-to-br focus:ring-4
+						focus:outline-none focus:ring-lime-300 dark:focus:ring-lime-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-4 me-2 mb-2">Publish
+					</button>
 				</div>
 			</div>
 		</div>
 }
 
+function TextEditor({ onChange }: {onChange: (e: ChangeEvent<HTMLTextAreaElement>) => void}) {
+	return <div className="mt-2">
+				<div className="w-full mb-4 ">
+					<div className="flex items-center justify-between border">
+						<div className="my-2 bg-white rounded-b-lg w-full">
+							<textarea rows={5} onChange={onChange}
+								className= "block p-2.5 w-full text-3xl font-serif bg-white border border-white rounded focus:border-white focus:outline-none" placeholder="Tell your story..."/>
+						</div>
+					</div>
+				</div>
+			</div>
+}
 
-const Customappbar = ({title,description})=> {
+
+const Customappbar = ()=> {
 	return <div className = "border-b flex justify-between px-10 py-4">
 		<Link to={'/blogs'} className="flex flex-col justify-center">
 			Blog.xyz
 		</Link>
-		<div>
-			<button onClick = {()=>{
-				axios.post(`${BACKEND_URL}/v1/blog`,{
-					title,
-					description
-				})
-			}} type="button" className="text-gray-900 bg-gradient-to-r from-lime-200 via-lime-400 to-lime-500 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-lime-300 dark:focus:ring-lime-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-4 me-2 mb-2">Publish</button>
-			<Avatar size = {"big"} name="Nithin"/>
-		</div>
+		<Avatar size = {"big"} name="Nithin"/>
 		</div>
 }
+
+
 
 
 
